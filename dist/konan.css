@@ -1,0 +1,76 @@
+.konan {
+  margin: 0 auto;
+  position: relative;
+  transition: width 0.15s ease-out, height 0.15s ease-out;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC);;
+}
+.konan_avatar {
+  height: 100%;
+  width: 100%;
+}
+.konan__sizer {
+  position: absolute;
+}
+.konan__sizer_hide {
+  display: none;
+}
+.konan__mask {
+  background: rgba(0,0,0,0.5);
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+.konan__board {
+  position: relative;
+}
+.konan__selection {
+  display: block;
+  position: relative;
+}
+.konan canvas {
+  display: block;
+}
+.konan__point {
+  background: rgba(190,190,190,0.35);
+  cursor: pointer;
+  height: 14px;
+  position: absolute;
+  transition: 0.15s background ease-out;
+  width: 14px;
+  z-index: 2;
+}
+.konan__point:hover,
+.konan__point_active {
+  background: rgba(190,190,190,0.65);
+}
+.konan__point_ne {
+  cursor: ne-resize;
+  top: -7px;
+  right: -7px;
+}
+.konan__point_nw {
+  top: -7px;
+  left: -7px;
+  cursor: nw-resize;
+}
+.konan__point_se {
+  cursor: se-resize;
+  bottom: -7px;
+  right: -7px;
+}
+.konan__point_sw {
+  cursor: sw-resize;
+  bottom: -7px;
+  left: -7px;
+}
+.konan__face {
+  cursor: move;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  z-index: 1;
+}

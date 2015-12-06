@@ -1,0 +1,77 @@
+$offset = -7px
+
+.konan
+    margin 0 auto
+    position relative
+    transition width 0.15s ease-out, height 0.15s ease-out
+    background unquote('url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC);')
+
+    &_avatar
+        height 100%
+        width 100%
+        
+    &__sizer
+        position absolute
+        
+        &_hide
+            display none
+
+    &__mask
+        background rgba(0, 0, 0, 0.5)
+        height 100%
+        left 0
+        position absolute
+        top 0
+        width 100%
+        z-index 1
+        
+    &__board
+        position relative
+        
+    &__selection
+        display block
+        position relative
+
+    canvas
+        display block
+
+    &__point
+        background rgba(190, 190, 190, 0.35)
+        cursor pointer
+        height 14px
+        position absolute
+        transition 0.15s background ease-out
+        width 14px
+        z-index 2
+
+        &:hover,
+        &_active
+            background rgba(190, 190, 190, 0.65)
+
+        &_ne
+            cursor ne-resize
+            top $offset
+            right $offset
+
+        &_nw
+            top $offset
+            left $offset
+            cursor nw-resize
+
+        &_se
+            cursor se-resize
+            bottom $offset
+            right $offset
+
+        &_sw
+            cursor sw-resize
+            bottom $offset
+            left $offset
+
+    &__face
+        cursor move
+        height 100%
+        position absolute
+        overflow hidden
+        width 100%
+        z-index 1
