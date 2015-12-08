@@ -11,6 +11,14 @@
     function Konan($el) {
         //eslint-disable-line
         this.init($el);
+
+        return {
+            on: this.on.bind(this),
+            startCropping: this.startCropping.bind(this),
+            getCroppedBlob: this.getCroppedBlob.bind(this),
+            getCroppedData: this.getCroppedData.bind(this),
+            getCroppedCanvas: this.getCroppedCanvas.bind(this)
+        };
     }
 
     Konan.prototype = { //eslint-disable-line
@@ -47,8 +55,8 @@
         processImage: function processImage(src) {
             this.getImage(src).then((function (img) {
                 if (this.validateImage(img)) {
-                    this.emit('start-crop');
                     this.initialize(img);
+                    this.emit('start-crop');
                 } else {
                     this.emit('error-size');
                 }
@@ -57,33 +65,64 @@
 
         cacheNodes: function cacheNodes($el) {
             this.$el = $el;
+            this.$evt = $({});
             this.$face = $el.find('.konan__face');
             this.$sizer = $el.find('.konan__sizer');
             this.$board = $el.find('.konan__board');
         },
 
-        emit: function emit() {},
+        emit: function emit() {
+            this.$evt.trigger(arguments[0], Array.prototype.slice.call(arguments, 1));
+        },
 
-        getCroppedData: function getCroppedData() {
+        on: function on(evt, callback) {
+            this.$evt.on(evt, callback);
+        },
+
+        drawSelection: function drawSelection(ctx) {
+            ctx.drawImage(this.$selection[0], this.cropBox.x, this.cropBox.y, this.cropBox.w, this.cropBox.h, 0, 0, this.cropBox.w, this.cropBox.h);
+        },
+
+        getCroppedBlob: function getCroppedBlob() {
             var canvas = document.createElement('canvas');
             var ctx = canvas.getContext('2d');
             var deferred = $.Deferred();
 
             canvas.setAttribute('width', this.cropBox.w);
             canvas.setAttribute('height', this.cropBox.h);
-            canvas.setAttribute('class', 'konan__canvas');
-
-            ctx.drawImage(this.$selection[0], this.cropBox.x, this.cropBox.y, this.cropBox.w, this.cropBox.h, 0, 0, this.cropBox.w, this.cropBox.h);
+            this.drawSelection(ctx);
 
             if (canvas.toBlob) {
-                canvas.toBlob(function (file) {
-                    deferred.resolve(file);
+                canvas.toBlob(function (src) {
+                    deferred.resolve(src);
                 });
             } else {
                 deferred.reject();
             }
 
             return deferred.promise();
+        },
+
+        getCroppedData: function getCroppedData() {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+
+            canvas.setAttribute('width', this.cropBox.w);
+            canvas.setAttribute('height', this.cropBox.h);
+            this.drawSelection(ctx);
+
+            return canvas.getImageData();
+        },
+
+        getCroppedCanvas: function getCroppedCanvas() {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+
+            canvas.setAttribute('width', this.cropBox.w);
+            canvas.setAttribute('height', this.cropBox.h);
+            this.drawSelection(ctx);
+
+            return canvas;
         },
 
         initialize: function initialize(img) {
@@ -336,7 +375,6 @@
             this.ctx.drawImage(img, 0, 0, srcW, srcH, 0, 0, this.destImgSize.w, this.destImgSize.h);
             this.cropBox.x = Math.floor((this.container.w - this.cropBox.w) / 2);
             this.cropBox.y = Math.floor((this.container.h - this.cropBox.h) / 2);
-            this.emitShowPreview(this.cropBox.w, this.cropBox.h, this.cropBox.x, this.cropBox.y);
         },
 
         setSize: function setSize(width, height) {
