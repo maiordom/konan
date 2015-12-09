@@ -3,6 +3,9 @@
     "name": "Vadim Zhulanov",
     "url": "https://github.com/maiordom"
   },
+  "dependencies": {
+    "blueimp-canvas-to-blob": "^2.2.2"
+  },
   "devDependencies": {
     "babel-preset-es2015": "^6.0.15",
     "blueimp-canvas-to-blob": "^2.2.2",
@@ -39,14 +42,11 @@
     "url": "https://github.com/maiordom/konan.git"
   },
   "scripts": {
-    "postinstall": "mv node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js dist/canvas-to-blob.min.js",
-    "install_selenium": "node_modules/.bin/selenium-standalone install",
     "lint": "node pre-commit.js",
-    "start_selenium": "node_modules/.bin/selenium-standalone start",
+    "postinstall": "mv node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js dist/canvas-to-blob.min.js",
+    "selenium_install": "node_modules/.bin/selenium-standalone install",
+    "selenium_start": "node_modules/.bin/selenium-standalone start",
     "test": "node_modules/.bin/mocha --timeout 60000 --slow 30000 test/webdriver.js"
   },
-  "version": "0.1.0",
-  "dependencies": {
-    "blueimp-canvas-to-blob": "^2.2.2"
-  }
+  "version": "0.1.0"
 }

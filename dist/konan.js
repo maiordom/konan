@@ -28,7 +28,7 @@
         container: { w: null, h: null },
         offset: { x: null, y: null },
         dragStart: { x: null, y: null },
-        cropBox: { w: 200, h: 200, x: null, y: null, minW: null, minH: null },
+        cropBox: { w: 200, h: 200, x: null, y: null, minW: 200, minH: 200 },
 
         init: function init($el) {
             this.cacheNodes($el);
