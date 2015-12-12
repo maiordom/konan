@@ -140,7 +140,7 @@ Konan.prototype = { //eslint-disable-line
 
     attachEventListeners: function() {
         this.$face.on('mousedown', this.onSizerFaceMouseDown.bind(this));
-        this.$el.on('mousedown', '.konan__point', this.onSizerPointMouseDown.bind(this));
+        this.$board.on('mousedown', '.konan__point', this.onSizerPointMouseDown.bind(this));
     },
 
     onSizerFaceMouseDown: function(evt) {
@@ -160,8 +160,7 @@ Konan.prototype = { //eslint-disable-line
     startDrag: function(evt, type) {
         var sizer = this.$sizer;
         var sizerOffset = sizer.offset();
-        var containerOffset = this.$el.offset();
-
+        var containerOffset = this.$board.offset();
         this.dragTrigger = $(evt.currentTarget);
         this.dragTrigger.addClass('konan__' + type + '_active');
         if (type === 'point') {
@@ -246,10 +245,10 @@ Konan.prototype = { //eslint-disable-line
             && h >= this.cropBox.minH
             && h <= this.container.h
         ) {
-            this.cropBox.w = Math.floor(w);
-            this.cropBox.h = Math.floor(h);
-            this.cropBox.x = Math.floor(x);
-            this.cropBox.y = Math.floor(y);
+            this.cropBox.w = w;
+            this.cropBox.h = h;
+            this.cropBox.x = x;
+            this.cropBox.y = y;
             this.renderCropBox();
             this.emitShowPreview(this.cropBox.w, this.cropBox.h, this.cropBox.x, this.cropBox.y);
         }
@@ -392,14 +391,15 @@ Konan.prototype = { //eslint-disable-line
         this.destImgSize.h = Math.floor(destH);
         this.setSize(this.destImgSize.w, this.destImgSize.h);
         this.ctx.drawImage(img, 0, 0, srcW, srcH, 0, 0, this.destImgSize.w, this.destImgSize.h);
-        this.cropBox.x = Math.floor((this.container.w - this.cropBox.w) / 2);
-        this.cropBox.y = Math.floor((this.container.h - this.cropBox.h) / 2);
+        this.cropBox.x = (this.container.w - this.cropBox.w) / 2;
+        this.cropBox.y = (this.container.h - this.cropBox.h) / 2;
     },
 
     setSize: function(width, height) {
         this.canvas.setAttribute('width', width);
         this.canvas.setAttribute('height', height);
-        this.$board.css('top', (this.scaleTo.h - height) / 2);
+        this.$el.css('padding-top', (this.scaleTo.h - height) / 2);
+        this.$el.css('padding-left', (this.scaleTo.w - width) / 2);
         this.$board.width(width);
         this.$board.height(height);
         this.container.w = width;
